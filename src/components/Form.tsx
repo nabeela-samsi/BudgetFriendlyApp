@@ -1,29 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-date-picker";
-import { useLocation } from "react-router-dom";
 
-const IncomeExpenseForm = () => {
-  const location = useLocation();
-  const { state } = location;
-  const [source, setSource] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState(new Date());
-  const placeholder = state.label === "expense" ? "Electricity bill" : "Salary";
+const Form = (props: {label: string}) => {
+  const placeholder = props.label === "Expense" ? "Electricity bill" : "Salary";
+  const [source, setSource] = useState('')
+  const [amount, setAmount] = useState("0")
+  const [date, setDate] = useState(new Date())
+  const [formData, setFormData] = useState([])
+  useEffect(()=>{
+    const getData =  localStorage.getItem(props.label)
+      if(typeof getData === 'string'){
+        setFormData(JSON.parse(getData))
+      }
+  },[props.label])
 
-  // const onhandleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const data = {
-  //     source,
-  //     amount,
-  //     date,
-  //   };
-  //   localStorage.setItem("expense1", JSON.stringify(data));
-  // };
+  const handleOnSubmit = async() => {
+    const value = formData.length ? [...formData, {source, amount, date}] : [{source, amount, date}]
+    await localStorage.setItem(props.label,JSON.stringify(value))
+  }
 
   return (
-    <form>
+    <form onSubmit={handleOnSubmit}>
       <label className="form__source">
-        <p>Source of {state.label}</p>
+        <p>Source of {props.label.toLocaleLowerCase()}</p>
         <input
           type="text"
           placeholder={placeholder}
@@ -32,27 +31,27 @@ const IncomeExpenseForm = () => {
         />
       </label>
       <label className="form__amt">
-        <p>Amount of {state.label}</p>
+        <p>Amount of {props.label.toLocaleLowerCase()}</p>
         <input
           className="amount"
           type="number"
           placeholder="amount"
           min={0}
           value={amount}
-          // onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(e.target.value)}
         />
       </label>
       <label className="form__date">
-        <p>Date of {state.label}</p>
+        <p>Date of {props.label.toLocaleLowerCase()}</p>
         <DatePicker
           value={date}
-          // onChange={(e) => setDate(e.toLocaleDateString())}
+          onChange={(date:any) => setDate(date)}
         />
       </label>
       <br /> <br />
-      <button type="submit">Add {state.label}</button>
+      <button type="submit">Add {props.label}</button>
     </form>
   );
 };
 
-export default IncomeExpenseForm;
+export default Form;

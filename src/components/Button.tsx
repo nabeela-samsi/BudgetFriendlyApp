@@ -1,9 +1,17 @@
-const Button = (props:{type: string}) => {
+import { ReactNode } from "react"
+import useModal from "../hooks/useModal"
+import Modal from "./Modal"
+
+const Button = (props:{label: string, type: string}) => {
+    const {modalIsOpen, toggle} = useModal()
     return (
         <>
-            <button>
-                {props.type}
+            <button onClick={toggle}>
+                {props.label}
             </button>
+            <>
+                <Modal type={props.type} label={props.label} modalIsOpen={modalIsOpen} toggle={toggle}/>
+            </>
         </>
     )
 }

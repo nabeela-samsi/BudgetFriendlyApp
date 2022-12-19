@@ -1,18 +1,11 @@
 import { useState } from "react"
 
-const TargetInfo = () => {
-    // eslint-disable-next-line
-    const [savings, setSavings] = useState(0)
-    // eslint-disable-next-line
-    const [target, setTarget] = useState(0)
-    // eslint-disable-next-line
-    const [progress, seProgress] = useState(0)
-
+const TargetInfo = (props:{savings:number, target:number, progress: number}) => {
     return(
         <aside className="dashboard__side-container">
-            <p>Current Savings: {savings}</p>
-            <p>Target: {target}</p>
-            <p>Progress: {progress}% </p>
+            <p>Current Savings: {props.savings}</p>
+            <p>Target: {props.target}</p>
+            <p>Progress: {props.progress}% </p>
         </aside>
     )
 }

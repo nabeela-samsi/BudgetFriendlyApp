@@ -13,6 +13,7 @@
     "react": "^18.2.0",
     "react-date-picker": "^9.1.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.5.0",
     "react-scripts": "5.0.1",
     "sass": "^1.57.0",
@@ -43,5 +44,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-modal": "^3.13.1"
   }
 }

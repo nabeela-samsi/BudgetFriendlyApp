@@ -9,13 +9,30 @@ import TargetInfo from "./TargetInfo";
 const Dashboard = () => {
     // eslint-disable-next-line
     const [balance, setBalance] = useState(0)
+    // eslint-disable-next-line
+    const [savings, setSavings] = useState(0)
+    // eslint-disable-next-line
+    const [target, setTarget] = useState(0)
+    // eslint-disable-next-line
+    const [progress, setProgress] = useState(0)
 
     return (
         <>
             <h1>Current Balance: {balance}</h1>
             <div className="dashboard">
-                <TargetInfo />
-                <Main />
+                <TargetInfo
+                    savings={savings}
+                    target={target}
+                    progress={progress}
+                />
+                <Main
+                    savings={savings}
+                    setSavings={setSavings}
+                    target={target}
+                    setTarget={setTarget}
+                    progress={progress}
+                    setProgress={setProgress}
+                />
             </div>
         </>
     )

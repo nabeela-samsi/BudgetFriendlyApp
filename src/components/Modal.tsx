@@ -1,11 +1,12 @@
 import ReactModal from "react-modal"
-import { PropType } from "../types/Icommon"
+import { ModalType } from "../types/ModalType"
+
 import Form from "./Form"
 import SetData from "./SetData"
 
-const Modal = (props: PropType) => {
-    const openForm = (props.type === 'Expenses' || props.type === 'Income')
-    const openSetData = (props.type === 'target' || props.type === 'savings' || props.type === 'transfer')
+const Modal = ({type,label,modalIsOpen,toggle,idToEdit}: ModalType) => {
+    const openForm = (type === 'Expenses' || type === 'Income')
+    const openSetData = (type === 'target' || type === 'savings' || type === 'transfer')
 
     const customStyles = {
         content: {
@@ -23,14 +24,29 @@ const Modal = (props: PropType) => {
 
     return (
         <>
-            <ReactModal isOpen={props.modalIsOpen} onRequestClose={props.toggle} ariaHideApp={false} style={customStyles}>
+            <ReactModal
+                isOpen={modalIsOpen}
+                onRequestClose={toggle}
+                ariaHideApp={false}
+                style={customStyles}
+            >
                <div className="modal">
-                <button onClick={props.toggle}>Close</button>
+                <button
+                    onClick={toggle}
+                    className="fa fa-close"
+                >
+                </button>
                     {openForm && (
-                        <Form label={props.type} idToEdit={props.idToEdit}/>
+                        <Form
+                            label={type}
+                            idToEdit={idToEdit}
+                        />
                     )}
                     {openSetData && (
-                        <SetData type={props.type} label={props.label}/>
+                        <SetData
+                            type={type}
+                            label={label}
+                        />
                     )}
                 </div>
             </ReactModal>

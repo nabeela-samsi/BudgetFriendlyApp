@@ -1,29 +1,5 @@
-header{
-    text-align: center;
-}
+@use './layouts/header.scss';
+@use './layouts/dashboard.scss';
+@use  './layouts/form.scss';
+@use './layouts/footer.scss'
 
-.dashboard {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-
-    &__main-container {
-        display: flex;
-        flex-direction: column;
-        flex: 2 ;
-    }
-
-    &__side-container{
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        align-items: center;
-    }
-}
-
-.form{
-    display: flex;
-    flex-direction: column;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}

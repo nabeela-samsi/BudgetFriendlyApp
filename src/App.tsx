@@ -1,12 +1,12 @@
-import React from 'react';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 import Header from './components/Header';
+
 import './compiled/styles.css'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Dashboard />
       <Footer />

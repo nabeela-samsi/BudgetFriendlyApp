@@ -1,7 +1,7 @@
-import { LinearProgress } from "@mui/material"
 import React, { useEffect, useState } from "react"
+import { LinearProgress } from "@mui/material"
 
-const TargetInfo = (props:{ balance: number, setBalance: (balance: number) => void}) => {
+const TargetInfo = () => {
     const [target, setTarget] = useState(0)
     const [savings, setSavings] = useState(0)
     const [progress, setProgress] = useState(0)
@@ -23,26 +23,23 @@ const TargetInfo = (props:{ balance: number, setBalance: (balance: number) => vo
         }
     },[savings, target])
 
-    // const onHandleClick = () => {
-    //     if(window.confirm("Please confirm do you want to transfer to current account?")){
-    //         const clacBalance = props.balance + savings
-    //         props.setBalance(clacBalance)
-    //         setSavings(0)
-    //         localStorage.removeItem("savings")
-    //     }
-    // }
-
     return(
         <aside className="dashboard__side-container">
             <p>
-                Current Savings: {savings}
+                Current Savings: €{savings}
             </p>
-            <p>Target: {target}</p>
-            <p>Progress: {progress}% </p>
-            <React.Fragment>
-                <LinearProgress variant={"determinate"}  value={progress} title={"Progress"}
-                style={{ width: "50%", marginRight: "4px", height:"3%"}}/>
-            </React.Fragment>
+            <p>
+                Target: €{target}
+            </p>
+            <p>
+                Progress: {progress}%
+            </p>
+            <LinearProgress
+                variant={"determinate"}
+                value={progress}
+                title={"Progress"}
+                style={{ width: "50%", marginRight: "4px", height:"3%"}}
+            />
         </aside>
     )
 }

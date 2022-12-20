@@ -1,22 +1,46 @@
-import { Box, Button, TextField } from "@mui/material"
+import { Box, Button, InputAdornment, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
+import { CommonType } from "../types/CommonType"
 
-const SetData = (props:{type: string, label:string}) => {
-    const buttonName = (props.type === "target") ? "Set" : "Transfer"
+const SetData = ({type,label}: CommonType) => {
+    const buttonName = (type === "target") ? "Set" : "Transfer"
+
     const [value, setValue] = useState("0")
+    const [errorMsg, setErrorMsg] = useState('')
+    const [errorFlag, setErrorFlag] = useState(false)
 
     useEffect(() => {
-        if(props.type === "target") {
-            const getData =  localStorage.getItem(props.type)
+        if(type === "target") {
+            const getData =  localStorage.getItem(type)
             if(typeof getData === 'string'){
                 const parse = JSON.parse(getData)
                 setValue(parse)
             }
         }
-    },[props.type])
+    },[type])
 
-    const handleSetValue = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-       localStorage.setItem(props.type,JSON.stringify(value))
+    const handleOnSetValue = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+        const incomingAmount = e.target.value
+        const getCurrentBalance = localStorage.getItem("balance")
+        const getSavingsBalance = localStorage.getItem("savings")
+
+        if((type === 'savings' && Number(incomingAmount) > Number(getCurrentBalance))
+            ||
+            (type === 'transfer' && Number(incomingAmount) > Number(getSavingsBalance))
+        ) {
+            setErrorMsg('You dont have sufficient money to transfer')
+            setErrorFlag(true)
+        } else {
+          setErrorMsg('')
+          setErrorFlag(false)
+        }
+        setValue(e.target.value)
+    }
+
+    const handleOnSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+       if(typeof type === 'string'){
+            localStorage.setItem(type,JSON.stringify(parseInt(value)))
+       }
     }
 
     return(
@@ -29,16 +53,27 @@ const SetData = (props:{type: string, label:string}) => {
             <TextField
                 required
                 sx={{mb:2}}
-                label={props.label}
+                label={label}
                 type="number"
                 placeholder="amount"
                 InputProps={{
-                inputProps:{min: 1}
+                    inputProps:{min: 1},
+                    startAdornment: <InputAdornment position="start">€</InputAdornment>
                 }}
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => handleOnSetValue(e)}
+                error={(errorFlag)}
+                helperText={errorFlag && errorMsg}
             />
-            <Button variant="contained" type="submit" sx={{mt:2}} onClick={(e) => handleSetValue(e)}>{buttonName}</Button>
+            <Button
+                variant="contained"
+                type="submit"
+                sx={{mt:2}}
+                onClick={(e) => handleOnSubmit(e)}
+                disabled={errorFlag ? true : false}
+            >
+                {buttonName}
+            </Button>
         </Box>
     )
 }

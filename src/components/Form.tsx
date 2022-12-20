@@ -1,55 +1,58 @@
 import { useEffect, useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import uuid4 from "uuid4"
+import { FormDataType } from "../types/FormType";
+import { CommonType } from "../types/CommonType";
 
 
-const Form = (props: {label: string, idToEdit?: string}) => {
-  const placeholder = props.label === "Expenses" ? "Electricity bill" : "Salary";
+const Form = ({label,idToEdit}: CommonType) => {
+  const placeholder = label === "Expenses" ? "Electricity bill" : "Salary";
+
   const [source, setSource] = useState('')
-  const [amount, setAmount] = useState("0")
-  const [date, setDate] = useState<Date | null>(new Date())
+  const [amount, setAmount] = useState(0)
+  const [date, setDate] = useState<string | null | Date>(new Date())
   const [errorMsg, setErrorMsg] = useState('')
   const [errorFlag, setErrorFlag] = useState(false)
   const [formData, setFormData] = useState([])
 
   useEffect(() => {
-    const getFormData = localStorage.getItem(props.label)
+    const getFormData = localStorage.getItem(label)
     if(typeof getFormData === 'string') {
       setFormData(JSON.parse(getFormData))
     }
-  },[props.label])
+  },[label])
 
   useEffect(() => {
-    if(props.idToEdit && formData.length) {
-      const getSpecificData: any = formData.filter((data: any) => data.id === props.idToEdit)
+    if(idToEdit && formData.length) {
+      const getSpecificData: FormDataType[]= formData.filter((data: FormDataType) => data.id === idToEdit)
       setSource(getSpecificData[0].source)
       setAmount(getSpecificData[0].amount)
       setDate(getSpecificData[0].date)
     }
-  },[props.idToEdit, formData])
+  },[idToEdit, formData])
 
-  const handleOnAmountChange = (e: any) => {
+  const handleOnAmountChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const incomingAmount = e.target.value
     const getCurrentBalance = localStorage.getItem("balance")
-    console.log(props.label === 'Expenses')
-    if(props.label === 'Expenses' && incomingAmount > Number(getCurrentBalance)) {
+    console.log(label === 'Expenses')
+    if(label === 'Expenses' && Number(incomingAmount) > Number(getCurrentBalance)) {
         setErrorMsg('You dont have sufficient money to spend')
         setErrorFlag(true)
     } else {
       setErrorMsg('')
       setErrorFlag(false)
     }
-    setAmount(e.target.value)
+    setAmount(parseFloat(e.target.value))
   }
 
   const handleOnSubmit = async(e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     let dataList
-    if((props.idToEdit)) {
-       dataList = formData.map((data: any) => {
-          if(data.id === props.idToEdit) {
-            return {id:props.idToEdit, source, amount, date}
+    if((idToEdit)) {
+       dataList = formData.map((data: FormDataType) => {
+          if(data.id === idToEdit) {
+            return {id:idToEdit, source, amount, date}
           }
           return true
        })
@@ -57,10 +60,10 @@ const Form = (props: {label: string, idToEdit?: string}) => {
       const id =uuid4()
       dataList = formData.length ? [...formData, {id, source, amount, date}] : [{id, source, amount, date}]
     }
-    await localStorage.setItem(props.label,JSON.stringify(dataList))
-    window.alert(`${props.label} added successfully`)
+    await localStorage.setItem(label,JSON.stringify(dataList))
+    window.alert(`${label} added successfully`)
     setSource('')
-    setAmount("0")
+    setAmount(0)
     setDate(new Date())
   }
 
@@ -74,7 +77,7 @@ const Form = (props: {label: string, idToEdit?: string}) => {
       <TextField
         required
         sx={{mb:2}}
-        label={"Source of " + props.label.toLocaleLowerCase()}
+        label={"Source of " + label.toLocaleLowerCase()}
         placeholder={placeholder}
         value={source}
         onChange={(e) => setSource(e.target.value)}
@@ -82,11 +85,12 @@ const Form = (props: {label: string, idToEdit?: string}) => {
       <TextField
         required
         sx={{mb:2}}
-        label={"Amount of " + props.label.toLocaleLowerCase()}
+        label={"Amount of " + label.toLocaleLowerCase()}
         type="number"
         placeholder="amount"
         InputProps={{
-          inputProps:{min: 1}
+          inputProps:{min: 1},
+          startAdornment: <InputAdornment position="start">€</InputAdornment>
         }}
         value={amount}
         onChange={(e) => handleOnAmountChange(e)}
@@ -95,14 +99,14 @@ const Form = (props: {label: string, idToEdit?: string}) => {
       />
       <LocalizationProvider dateAdapter={AdapterDayjs} sx={{mb:2}}>
         <DatePicker
-          label={"Date of " + props.label.toLocaleLowerCase()}
+          label={"Date of " + label.toLocaleLowerCase()}
           value={date}
           onChange={(e: Date | null) => setDate(e)}
           renderInput={(params) => <TextField {...params} required />}
         />
       </LocalizationProvider>
       <Button variant="contained" type="submit" sx={{mt:2}} disabled={errorFlag ? true : false} >
-        Add {props.label}
+        Add {label}
       </Button>
     </Box>
   );

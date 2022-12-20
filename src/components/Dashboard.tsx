@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+
 import Main from "./Main";
 import TargetInfo from "./TargetInfo";
 
@@ -11,20 +12,18 @@ const Dashboard = () => {
         const getTransferedValue = localStorage.getItem("transfer")
         const getSavings = localStorage.getItem("savings")
 
-        const calcCurrentBal = Number(getTotalIncome) - Number(getTotalExpenses) + Number(getTransferedValue) - Number(getSavings)
+        const calcCurrentBal = Number(getTotalIncome) + Number(getTransferedValue) - Number(getTotalExpenses) - Number(getSavings)
+
         setBalance(calcCurrentBal)
         localStorage.setItem("balance", JSON.stringify(calcCurrentBal))
     },[])
 
     return (
         <>
-            <h1>Current Balance: {balance}</h1>
+            <h2 style={{paddingLeft:"10%"}}>Current Balance: €{balance}</h2>
             <div className="dashboard">
-                <TargetInfo
-                    balance={balance}
-                    setBalance={setBalance}
-                />
-                <Main/>
+                <TargetInfo />
+                <Main />
             </div>
         </>
     )

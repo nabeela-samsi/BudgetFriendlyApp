@@ -26,4 +26,12 @@ header {
   margin-bottom: 1em;
 }
 
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  text-align: center;
+}
+
 /*# sourceMappingURL=styles.css.map */

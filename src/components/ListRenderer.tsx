@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import Button from "./Button"
+import NavButton from "./NavButton"
 
 const ListRenderer = (props:{ type: string})=> {
     const [data, setdata] = useState([])
@@ -12,22 +12,22 @@ const ListRenderer = (props:{ type: string})=> {
             setdata(parse)
         }
     },[props.type])
-    let displayData = data.map((item: any, index) => {
+    let displayData = data.map((item: any) => {
         totalAmount = totalAmount + +item.amount
         localStorage.setItem(`Total ${props.type}`,JSON.stringify(totalAmount))
 
         const getDate = new Date(item.date).toLocaleDateString("default", {weekday:"short", month: "short", day:"numeric", year:"numeric"})
 
         return (
-            <li key={`${props.type}-${item.source}-${item.date}-${index}`}>
+            <li key={`${item.id}`}>
                 {item.source}: {item.amount}EUR on {getDate}
-                <Button label={"Update"} type={props.type} source={item}/>
+                <NavButton label={"Update"} type={props.type} idToEdit={item.id}/>
             </li>
         )
     })
     return (
         <div>
-            <h2>{props.type} <Button label={"ADD"} type={props.type}/></h2>
+            <h2>{props.type} <NavButton label={"ADD"} type={props.type}/></h2>
             {(displayData.length) ? <>{displayData}</> : <p>There is no data to display</p>}
         </div>
     )

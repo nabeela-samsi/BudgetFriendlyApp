@@ -13,7 +13,7 @@ const Dashboard = () => {
 
         const calcCurrentBal = Number(getTotalIncome) - Number(getTotalExpenses) + Number(getTransferedValue) - Number(getSavings)
         setBalance(calcCurrentBal)
-
+        localStorage.setItem("balance", JSON.stringify(calcCurrentBal))
     },[])
 
     return (
@@ -24,8 +24,7 @@ const Dashboard = () => {
                     balance={balance}
                     setBalance={setBalance}
                 />
-                <Main
-                />
+                <Main/>
             </div>
         </>
     )

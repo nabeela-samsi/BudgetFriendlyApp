@@ -1,11 +1,14 @@
-import Button from "./Button"
+import NavButton from "./NavButton"
 import ListRenderer from "./ListRenderer"
 
 const Main = () => {
     return (
         <section className="dashboard__main-container">
-            <Button label={"Set target"} type={"target"}/>
-            <Button label={"Transfer to saving account"} type={"savings"} />
+            <div className="action-buttons">
+                <NavButton label={"Set target"} type={"target"}/>
+                <NavButton label={"Transfer to saving account"} type={"savings"} />
+                <NavButton label={"Transfer to current account"} type={"transfer"} />
+            </div>
             <ListRenderer type={"Income"}/>
             <ListRenderer type={"Expenses"}/>
         </section>

@@ -3,5 +3,5 @@ export interface PropType{
     label: string
     modalIsOpen:boolean
     toggle: () => void
-    source?:Object
+    idToEdit?: string
 }

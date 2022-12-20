@@ -36,7 +36,7 @@ const Form = ({label,idToEdit}: CommonType) => {
   const handleOnAmountChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const incomingAmount = e.target.value
     const getCurrentBalance = localStorage.getItem("balance")
-    console.log(label === 'Expenses')
+
     if(label === 'Expenses' && Number(incomingAmount) > Number(getCurrentBalance)) {
         setErrorMsg('You dont have sufficient money to spend')
         setErrorFlag(true)

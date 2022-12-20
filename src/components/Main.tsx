@@ -1,19 +1,11 @@
-import { useState } from "react"
 import Button from "./Button"
 import ListRenderer from "./ListRenderer"
 
-const Main = (props:{
-    savings: number,
-    setSavings: (Savings:number) => void,
-    target: number,
-    setTarget: (target:number) => void,
-    progress: number,
-    setProgress: (progress:number) => void
-}) => {
+const Main = () => {
     return (
         <section className="dashboard__main-container">
             <Button label={"Set target"} type={"target"}/>
-            <Button label={"Transfer to saving account"} type={"transfer"} />
+            <Button label={"Transfer to saving account"} type={"savings"} />
             <ListRenderer type={"Income"}/>
             <ListRenderer type={"Expenses"}/>
         </section>

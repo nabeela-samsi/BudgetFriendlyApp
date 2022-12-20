@@ -1,8 +1,7 @@
-import { ReactNode } from "react"
 import useModal from "../hooks/useModal"
 import Modal from "./Modal"
 
-const Button = (props:{label: string, type: string}) => {
+const Button = (props:{label: string, type: string, source?:object}) => {
     const {modalIsOpen, toggle} = useModal()
     return (
         <>
@@ -10,7 +9,7 @@ const Button = (props:{label: string, type: string}) => {
                 {props.label}
             </button>
             <>
-                <Modal type={props.type} label={props.label} modalIsOpen={modalIsOpen} toggle={toggle}/>
+                <Modal type={props.type} label={props.label} modalIsOpen={modalIsOpen} toggle={toggle} source={props.source}/>
             </>
         </>
     )

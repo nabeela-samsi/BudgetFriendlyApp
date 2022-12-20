@@ -12,10 +12,10 @@ const SetData = (props:{type: string, label:string, toggle: () => void}) => {
                 setValue(parse)
             }
         }
-    },[])
+    },[props.type])
 
     const handleSetValue = () => {
-       localStorage.setItem(props.type,JSON.stringify(value))
+       localStorage.setItem(props.type,JSON.stringify(+value))
     }
 
     return(

@@ -3,6 +3,8 @@ import Button from "./Button"
 
 const ListRenderer = (props:{ type: string})=> {
     const [data, setdata] = useState([])
+    let totalAmount = 0
+
     useEffect(() => {
         const getData =  localStorage.getItem(props.type)
         if(typeof getData === 'string'){
@@ -10,8 +12,19 @@ const ListRenderer = (props:{ type: string})=> {
             setdata(parse)
         }
     },[props.type])
-    console.log(data)
-    let displayData = data.map((item: any, index) => <li key={`${props.type}-${index}`}>{item.source}: {item.amount}EUR on {item.date}</li>)
+    let displayData = data.map((item: any, index) => {
+        totalAmount = totalAmount + +item.amount
+        localStorage.setItem(`Total ${props.type}`,JSON.stringify(totalAmount))
+
+        const getDate = new Date(item.date).toLocaleDateString("default", {weekday:"short", month: "short", day:"numeric", year:"numeric"})
+
+        return (
+            <li key={`${props.type}-${item.source}-${item.date}-${index}`}>
+                {item.source}: {item.amount}EUR on {getDate}
+                <Button label={"Update"} type={props.type} source={item}/>
+            </li>
+        )
+    })
     return (
         <div>
             <h2>{props.type} <Button label={"ADD"} type={props.type}/></h2>

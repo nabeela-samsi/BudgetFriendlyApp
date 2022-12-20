@@ -1,37 +1,30 @@
-import {useState} from "react";
-import Button from "./Button";
-import ListRenderer from "./ListRenderer";
+import {useEffect, useState} from "react";
 import Main from "./Main";
 import TargetInfo from "./TargetInfo";
-// import SetData from "./SetData";
-
 
 const Dashboard = () => {
-    // eslint-disable-next-line
     const [balance, setBalance] = useState(0)
-    // eslint-disable-next-line
-    const [savings, setSavings] = useState(0)
-    // eslint-disable-next-line
-    const [target, setTarget] = useState(0)
-    // eslint-disable-next-line
-    const [progress, setProgress] = useState(0)
+
+    useEffect(() => {
+        const getTotalIncome = localStorage.getItem("Total Income")
+        const getTotalExpenses = localStorage.getItem("Total Expenses")
+        const getTransferedValue = localStorage.getItem("transfer")
+        const getSavings = localStorage.getItem("savings")
+
+        const calcCurrentBal = Number(getTotalIncome) - Number(getTotalExpenses) + Number(getTransferedValue) - Number(getSavings)
+        setBalance(calcCurrentBal)
+
+    },[])
 
     return (
         <>
             <h1>Current Balance: {balance}</h1>
             <div className="dashboard">
                 <TargetInfo
-                    savings={savings}
-                    target={target}
-                    progress={progress}
+                    balance={balance}
+                    setBalance={setBalance}
                 />
                 <Main
-                    savings={savings}
-                    setSavings={setSavings}
-                    target={target}
-                    setTarget={setTarget}
-                    progress={progress}
-                    setProgress={setProgress}
                 />
             </div>
         </>

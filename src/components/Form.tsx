@@ -39,8 +39,13 @@ const Form = ({type, idToEdit, label}: CommonType) => {
   const handleOnAmountChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const incomingAmount = e.target.value
     const getCurrentBalance = localStorage.getItem("balance")
+    const regExp = /^0[0-9].*$/
 
-    if(type === 'Expense' && Number(incomingAmount) > Number(getCurrentBalance)) {
+
+    if(regExp.test(incomingAmount)){
+      setErrorMsg('Please dont start the amount value with 0')
+      setErrorFlag(true)
+    } else if(type === 'Expense' && Number(incomingAmount) > Number(getCurrentBalance)) {
         setErrorMsg('You dont have sufficient money to spend')
         setErrorFlag(true)
     } else {

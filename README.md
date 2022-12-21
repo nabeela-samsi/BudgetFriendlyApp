@@ -1,32 +1,34 @@
-# Getting Started with React Components & React Hooks
+# Budget friendly app
 
-This assignment requires also TypeScript when passing props to React Components
+Welcome to budget friendly app project. It is a simple and user friendly application built using React TypeScript template.
 
-## Requirements
+## Tech Stack used
 
-1. Create a simple one-page application to store incomes and expenses, and set
-saving target.
-2. Account balance can be calculated from incomes, expenses, and saving.
-`incomes - expenses + saving = balance`
-3. Users should be able to add new incomes, expenses, transfer from balance account to saving account, and reset saving target. Balance should never be negative number.
-4. Use React Hooks where applicable. TypeScript must be used at least for the props types.
-5. Decide your own styling (The image has no style)
+- TypeScript
+- HTML
+- SCSS
 
-## Bonus point
+## Prerequsities
 
-1. Add function to transfer money back from saving account to current balance.
-2. Set source of incomes and expenses as the select elements with the categories of your choice.
-3. Add edit/delete button and according functions for incomes and expenses.
-4. Use `d3` package to print out 2 piecharts for incomes and expenses in categories.
+- In terminal run
+    - npm i
 
-## References
+## How to start the application?
 
-Be creative with your style!
+- in terminal run
+    - npm run start
 
-![demo1](https://github.com/Integrify-Finland/bof-budget-control-app/blob/main/Screenshot%202022-10-10%20at%2017.26.52.png)
----
+## How it is helpful?
 
-![demo2](https://github.com/Integrify-Finland/bof-budget-control-app/blob/main/Screenshot%202022-10-10%20at%2017.28.16.png)
----
-
-![demo3](https://github.com/Integrify-Finland/bof-budget-control-app/blob/main/Screenshot%202022-10-10%20at%2017.44.06.png)
+- We can add / update / delete the Income and Expenses records
+- We can set specific target
+- We are able to see incomes and expenses history.
+- If we have balance in current account we can transfer the amount from current to the savings account and vice versa.
+- Current Balance is calculated from incomes, expenses, savings and transfered amount. `totalIncome + transfered money - totalExpenses - savings`
+- The progress bar is calculated if target set and there is a balance in savings. `(savings / target)*100`
+- Required validations are taken care like below
+    - while adding income / expense, the source, amount and date are required fields.
+    - while adding income / expense /traget / transfering the money amount is required and cannot be 0 or less than 1
+    - the app doesnt allow to add the amount of expense more than the current balance
+    - while using transfer to savings account, the given amount should not be greater than the current balance
+    while using transfer to current account, the given amount should not be greater than the savings balance

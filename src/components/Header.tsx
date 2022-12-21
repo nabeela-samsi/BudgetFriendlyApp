@@ -1,5 +1,5 @@
 const Header = () => (
-  <header className="header">
+  <header className = "header">
     <h1>Budget friendly app</h1>
   </header>
 );

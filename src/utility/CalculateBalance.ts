@@ -5,7 +5,7 @@ const CalculateBalance = () => {
   let totalExpense = 0;
 
   const getListsOfIncomeJSON = localStorage.getItem("Income");
-  const getListsOfExpensesJSON = localStorage.getItem("Expenses");
+  const getListsOfExpensesJSON = localStorage.getItem("Expense");
   const getTransferedValue = localStorage.getItem("transfer")
   const getSavings = localStorage.getItem("savings")
 

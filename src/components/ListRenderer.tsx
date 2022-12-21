@@ -51,7 +51,7 @@ const ListRenderer = ({type, setBalance}: ListRendererType)=> {
     return (
         <div>
             <h2>
-                {type}
+                {type+"s"}
                 <NavButton
                     label={"ADD"}
                     type={type}

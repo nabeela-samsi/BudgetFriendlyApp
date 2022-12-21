@@ -13,11 +13,13 @@ const Dashboard = () => {
 
     return (
         <>
-            <h2 style={{paddingLeft:"10%"}}>Current Balance: €{balance}</h2>
-            <div className="dashboard">
+            <h2 style = {{paddingLeft:"10%"}}>
+                Current Balance: €{balance}
+            </h2>
+            <div className = "dashboard">
                 <TargetInfo />
                 <Main
-                    setBalance={setBalance}
+                    setBalance = {setBalance}
                 />
             </div>
         </>

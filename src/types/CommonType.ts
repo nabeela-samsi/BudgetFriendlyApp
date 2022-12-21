@@ -1,6 +1,6 @@
 export interface CommonType {
     label: string
-    type?: string
+    type: string
     idToEdit?: string
 }
 

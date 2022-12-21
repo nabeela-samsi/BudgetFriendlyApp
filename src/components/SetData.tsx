@@ -11,7 +11,7 @@ const SetData = ({type,label}: CommonType) => {
 
     useEffect(() => {
         if(type === "target") {
-            const getData =  localStorage.getItem(type)
+            const getData = localStorage.getItem(type)
             if(typeof getData === 'string'){
                 const parse = JSON.parse(getData)
                 setValue(parse)
@@ -45,32 +45,31 @@ const SetData = ({type,label}: CommonType) => {
 
     return(
         <Box
-            component={"form"}
-            noValidate
-            autoComplete="off"
-            className="form"
+            component = {"form"}
+            autoComplete = "off"
+            className = "form"
         >
             <TextField
                 required
-                sx={{mb:2}}
-                label={label}
-                type="number"
-                placeholder="amount"
+                sx = {{mb:2}}
+                label = {label}
+                type = "number"
+                placeholder = "amount"
                 InputProps={{
                     inputProps:{min: 1},
                     startAdornment: <InputAdornment position="start">€</InputAdornment>
                 }}
-                value={value}
-                onChange={(e) => handleOnSetValue(e)}
-                error={(errorFlag)}
-                helperText={errorFlag && errorMsg}
+                value = {value}
+                onChange = {(e) => handleOnSetValue(e)}
+                error = {(errorFlag)}
+                helperText = {errorFlag && errorMsg}
             />
             <Button
-                variant="contained"
-                type="submit"
-                sx={{mt:2}}
-                onClick={(e) => handleOnSubmit(e)}
-                disabled={errorFlag ? true : false}
+                variant = "contained"
+                type = "submit"
+                sx = {{mt:2}}
+                onClick = {(e) => handleOnSubmit(e)}
+                disabled = {errorFlag ? true : false}
             >
                 {buttonName}
             </Button>

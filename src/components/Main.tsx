@@ -23,7 +23,7 @@ const Main = ({setBalance}:{setBalance: (balance: number) => void}) => {
                 setBalance = {setBalance}
             />
             <ListRenderer
-                type={"Expenses"}
+                type={"Expense"}
                 setBalance = {setBalance}
             />
         </section>

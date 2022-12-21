@@ -14,34 +14,34 @@ const NavButton = ({label,type,idToEdit}: CommonType) => {
         <>
             {!(addButton || updateButton) && (
                 <Button
-                    onClick={toggle}
-                    variant="contained"
-                    color="secondary"
-                    sx={{mr: '1em'}}
+                    onClick = {toggle}
+                    variant = "contained"
+                    color = "secondary"
+                    sx = {{mr: '1em'}}
                 >
                     {label}
                 </Button>
             )}
             {addButton && (
                 <Icon
-                    className="fa fa-plus-circle"
-                    onClick={toggle}
-                    color="secondary"
+                    className = "fa fa-plus-circle"
+                    onClick = {toggle}
+                    color = "secondary"
                 />
             )}
             {updateButton && (
                 <Icon
-                    className="fa fa-pencil"
-                    onClick={toggle}
+                    className = "fa fa-pencil"
+                    onClick = {toggle}
                 />
             )}
             <>
                 <Modal
-                    type={type}
-                    label={label}
-                    modalIsOpen={modalIsOpen}
-                    toggle={toggle}
-                    idToEdit={idToEdit}
+                    type = {type}
+                    label = {label}
+                    modalIsOpen = {modalIsOpen}
+                    toggle = {toggle}
+                    idToEdit = {idToEdit}
                 />
             </>
         </>

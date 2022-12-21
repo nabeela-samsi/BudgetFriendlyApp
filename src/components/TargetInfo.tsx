@@ -24,7 +24,7 @@ const TargetInfo = () => {
     },[savings, target])
 
     return(
-        <aside className="dashboard__side-container">
+        <aside className = "dashboard__side-container">
             <p>
                 Current Savings: €{savings}
             </p>
@@ -35,11 +35,11 @@ const TargetInfo = () => {
                 Progress: {progress}%
             </p>
             <LinearProgress
-                variant={"determinate"}
-                value={progress}
-                title={"Progress"}
-                style={{ width: "50%", marginRight: "4px", height:"3%"}}
-                color="secondary"
+                variant = {"determinate"}
+                value = {progress}
+                title = {"Progress"}
+                style = {{ width: "50%", marginRight: "4px", height:"3%"}}
+                color = "secondary"
             />
         </aside>
     )

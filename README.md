@@ -32,3 +32,7 @@ Welcome to budget friendly app project. It is a simple and user friendly applica
     - the app doesnt allow to add the amount of expense more than the current balance
     - while using transfer to savings account, the given amount should not be greater than the current balance
     while using transfer to current account, the given amount should not be greater than the savings balance
+
+## Demo
+
+- Here you can check the work. [Budget Friendly App](https://ephemeral-madeleine-5fd95a.netlify.app/)

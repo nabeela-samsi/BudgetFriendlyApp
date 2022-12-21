@@ -1,21 +1,34 @@
+import { Icon } from "@mui/material"
 import { useEffect, useState } from "react"
+import { FormDataType } from "../types/FormType"
 
 import { ListRendererType } from "../types/ListRendererType"
+import CalculateBalance from "../utility/CalculateBalance"
 
 import NavButton from "./NavButton"
 
-const ListRenderer = ({type}: ListRendererType)=> {
-    const [data, setdata] = useState([])
+const ListRenderer = ({type, setBalance}: ListRendererType)=> {
+    const [data, setData] = useState([])
+    const [toggle, setToggle] =useState(false)
 
     useEffect(() => {
         const getData: string | null = localStorage.getItem(type)
         if(typeof getData === 'string'){
             const parse = JSON.parse(getData)
-            setdata(parse)
+            setData(parse)
         }
-    },[type])
+    },[type, toggle])
 
-    let displayData = data.map((item: any) => {
+    const deleteData = (id: string) => {
+        if(window.confirm("Please confirm do you want to delete the data?")){
+            const filteredData = data.filter((item: FormDataType) => item.id !== id)
+            localStorage.setItem(type, JSON.stringify(filteredData))
+            setBalance(CalculateBalance())
+            setToggle(true)
+        }
+    }
+
+    const displayData = data.map((item: any) => {
         const getDate = new Date(item.date).toLocaleDateString("default", {weekday:"short", month: "short", day:"numeric", year:"numeric"})
 
         return (
@@ -26,6 +39,12 @@ const ListRenderer = ({type}: ListRendererType)=> {
                     type={type}
                     idToEdit={item.id}
                 />
+                <Icon
+                    className="fa fa-trash-o"
+                    onClick={() => deleteData(item.id)}
+                    color="error"
+                >
+                </Icon>
             </li>
         )
     })

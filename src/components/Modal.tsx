@@ -1,3 +1,4 @@
+import { Icon, IconButton } from "@mui/material"
 import ReactModal from "react-modal"
 import { ModalType } from "../types/ModalType"
 
@@ -31,11 +32,12 @@ const Modal = ({type,label,modalIsOpen,toggle,idToEdit}: ModalType) => {
                 style={customStyles}
             >
                <div className="modal">
-                <button
-                    onClick={toggle}
-                    className="fa fa-close"
-                >
-                </button>
+                    <IconButton
+                        onClick={toggle}
+                        className="fa fa-times-circle-o"
+                        sx={{position: "absolute", right:0, top: 0, zIndex:2000}}
+                    >
+                    </IconButton>
                     {openForm && (
                         <Form
                             label={type}

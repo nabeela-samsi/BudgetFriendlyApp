@@ -1,7 +1,7 @@
 import NavButton from "./NavButton"
 import ListRenderer from "./ListRenderer"
 
-const Main = () => {
+const Main = ({setBalance}:{setBalance: (balance: number) => void}) => {
     return (
         <section className="dashboard__main-container">
             <div className="action-buttons">
@@ -20,9 +20,11 @@ const Main = () => {
             </div>
             <ListRenderer
                 type={"Income"}
+                setBalance = {setBalance}
             />
             <ListRenderer
                 type={"Expenses"}
+                setBalance = {setBalance}
             />
         </section>
     )

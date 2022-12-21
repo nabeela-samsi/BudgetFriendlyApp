@@ -3,3 +3,4 @@ export interface CommonType {
     type?: string
     idToEdit?: string
 }
+

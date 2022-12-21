@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { LinearProgress } from "@mui/material"
 
 const TargetInfo = () => {
@@ -39,6 +39,7 @@ const TargetInfo = () => {
                 value={progress}
                 title={"Progress"}
                 style={{ width: "50%", marginRight: "4px", height:"3%"}}
+                color="secondary"
             />
         </aside>
     )

@@ -15,7 +15,8 @@ const NavButton = ({label,type,idToEdit}: CommonType) => {
             {!(addButton || updateButton) && (
                 <Button
                     onClick={toggle}
-                    variant="outlined"
+                    variant="contained"
+                    color="secondary"
                     sx={{mr: '1em'}}
                 >
                     {label}
@@ -25,6 +26,7 @@ const NavButton = ({label,type,idToEdit}: CommonType) => {
                 <Icon
                     className="fa fa-plus-circle"
                     onClick={toggle}
+                    color="secondary"
                 />
             )}
             {updateButton && (

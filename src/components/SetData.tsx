@@ -39,7 +39,7 @@ const SetData = ({type,label}: CommonType) => {
 
     const handleOnSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
        if(typeof type === 'string'){
-            localStorage.setItem(type,JSON.stringify(parseInt(value)))
+            localStorage.setItem(type,JSON.stringify(Number(value)))
        }
     }
 

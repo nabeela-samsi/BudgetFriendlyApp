@@ -1,3 +1,4 @@
 export interface ListRendererType {
-    type: string
+    type: string,
+    setBalance: (balance: number) => void
 }

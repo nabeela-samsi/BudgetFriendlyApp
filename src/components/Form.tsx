@@ -85,6 +85,7 @@ const Form = ({type, idToEdit, label}: CommonType) => {
             id = {`${type}-sourcelist`}
             options = {sourceLists}
             getOptionLabel = {(option: string) => option}
+            value={source}
             onInputChange = {(_,value) => setSource(value)}
             renderInput = {(params) => <TextField {...params} label = {"Source of " + type.toLocaleLowerCase()} required/> }
           />

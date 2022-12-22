@@ -10,26 +10,28 @@ import FormValidation from "../utility/FormValidation";
 import SourceLists from "../utility/SelectLists";
 
 const Form = ({type, idToEdit, label}: CommonType) => {
-  const [source, setSource] = useState('')
+  const [source, setSource] = useState('None')
   const [amount, setAmount] = useState(0)
-  const [date, setDate] = useState<string | null | Date>(new Date())
+  const [date, setDate] = useState<Date |null>(new Date())
   const [errorMsg, setErrorMsg] = useState('')
-  const [errorFlag, setErrorFlag] = useState(false)
+  const [fieldError, setFiledError] = useState('')
   const [formData, setFormData] = useState([])
   const [loading, setLoading] = useState(false)
   const [sourceLists, setSourceLists] = useState<string[]>([])
 
   useEffect(() => {
+    setLoading(true)
     const getFormData = localStorage.getItem(type)
     if(typeof getFormData === 'string') {
       setFormData(JSON.parse(getFormData))
     }
     setSourceLists(SourceLists(type))
+    setLoading(false)
   },[type])
 
   useEffect(() => {
+    setLoading(true)
     if(idToEdit && formData.length) {
-      setLoading(true)
       const getSpecificData: FormDataType[]= formData.filter((data: FormDataType) => data.id === idToEdit)
       setSource(getSpecificData[0].source)
       setAmount(getSpecificData[0].amount)
@@ -39,10 +41,10 @@ const Form = ({type, idToEdit, label}: CommonType) => {
   },[idToEdit, formData])
 
   const handleOnAmountChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    FormValidation(e.target.value, type).then(result => {
+    FormValidation(e.target.value, type, source).then(result => {
       if(result.error) {
           setErrorMsg(result.message)
-          setErrorFlag(result.error)
+          setFiledError(result.field)
       }
     })
     setAmount(parseFloat(e.target.value))
@@ -87,7 +89,8 @@ const Form = ({type, idToEdit, label}: CommonType) => {
             getOptionLabel = {(option: string) => option}
             value={source}
             onInputChange = {(_,value) => setSource(value)}
-            renderInput = {(params) => <TextField {...params} label = {"Source of " + type.toLocaleLowerCase()} required/> }
+            renderInput = {(params) => <TextField {...params} label = {"Source of " + type.toLocaleLowerCase()}  error = {(fieldError === 'Source')}
+            helperText = {fieldError === 'Source' && errorMsg} required/> }
           />
           <TextField
             required
@@ -101,8 +104,8 @@ const Form = ({type, idToEdit, label}: CommonType) => {
             }}
             value = {amount}
             onChange = {(e) => handleOnAmountChange(e)}
-            error = {(errorFlag)}
-            helperText = {errorFlag && errorMsg}
+            error = {(fieldError === 'Amount')}
+            helperText = {errorMsg && fieldError === 'Amount'}
           />
           <LocalizationProvider
             dateAdapter = {AdapterDayjs}
@@ -111,7 +114,7 @@ const Form = ({type, idToEdit, label}: CommonType) => {
             <DatePicker
               label = {"Date of " + type.toLocaleLowerCase()}
               value = {date}
-              onChange = {(e: Date | null) => setDate(e)}
+              onChange = {(newDate): void => setDate(newDate)}
               renderInput = {(params) => <TextField {...params} required />}
             />
           </LocalizationProvider>
@@ -119,7 +122,7 @@ const Form = ({type, idToEdit, label}: CommonType) => {
             variant = "contained"
             type = "submit"
             sx = {{mt:2}}
-            disabled = {errorFlag ? true : false}
+            disabled = {fieldError.trim.length > 0 ? true : false}
           >
             {label} {type}
           </Button>

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Box, Button, CircularProgress, InputAdornment, TextField } from "@mui/material";
+import { Autocomplete, Box, Button, CircularProgress, InputAdornment, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import uuid4 from "uuid4"
+
 import { FormDataType } from "../types/FormType";
 import { CommonType } from "../types/CommonType";
-
+import FormValidation from "../utility/FormValidation";
+import SourceLists from "../utility/SelectLists";
 
 const Form = ({type, idToEdit, label}: CommonType) => {
-  const placeholder = type === "Expense" ? "Electricity bill" : "Salary";
-
   const [source, setSource] = useState('')
   const [amount, setAmount] = useState(0)
   const [date, setDate] = useState<string | null | Date>(new Date())
@@ -17,12 +17,14 @@ const Form = ({type, idToEdit, label}: CommonType) => {
   const [errorFlag, setErrorFlag] = useState(false)
   const [formData, setFormData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [sourceLists, setSourceLists] = useState<string[]>([])
 
   useEffect(() => {
     const getFormData = localStorage.getItem(type)
     if(typeof getFormData === 'string') {
       setFormData(JSON.parse(getFormData))
     }
+    setSourceLists(SourceLists(type))
   },[type])
 
   useEffect(() => {
@@ -37,21 +39,12 @@ const Form = ({type, idToEdit, label}: CommonType) => {
   },[idToEdit, formData])
 
   const handleOnAmountChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-    const incomingAmount = e.target.value
-    const getCurrentBalance = localStorage.getItem("balance")
-    const regExp = /^0[0-9].*$/
-
-
-    if(regExp.test(incomingAmount)){
-      setErrorMsg('Please dont start the amount value with 0')
-      setErrorFlag(true)
-    } else if(type === 'Expense' && Number(incomingAmount) > Number(getCurrentBalance)) {
-        setErrorMsg('You dont have sufficient money to spend')
-        setErrorFlag(true)
-    } else {
-      setErrorMsg('')
-      setErrorFlag(false)
-    }
+    FormValidation(e.target.value, type).then(result => {
+      if(result.error) {
+          setErrorMsg(result.message)
+          setErrorFlag(result.error)
+      }
+    })
     setAmount(parseFloat(e.target.value))
   }
 
@@ -86,13 +79,14 @@ const Form = ({type, idToEdit, label}: CommonType) => {
           onSubmit = {(e) => handleOnSubmit(e)}
           className = "form"
         >
-          <TextField
-            required
+          <Autocomplete
+            disablePortal
             sx = {{mb:2}}
-            type = {"Source of " + type.toLocaleLowerCase()}
-            placeholder = {placeholder}
-            value = {source}
-            onChange = {(e) => setSource(e.target.value)}
+            id = {`${type}-sourcelist`}
+            options = {sourceLists}
+            getOptionLabel = {(option: string) => option}
+            onInputChange = {(_,value) => setSource(value)}
+            renderInput = {(params) => <TextField {...params} label = {"Source of " + type.toLocaleLowerCase()} required/> }
           />
           <TextField
             required

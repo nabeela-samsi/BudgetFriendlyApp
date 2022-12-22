@@ -1,6 +1,7 @@
 import { Box, Button, InputAdornment, TextField } from "@mui/material"
 import { useEffect, useState } from "react"
 import { CommonType } from "../types/CommonType"
+import FormValidation from "../utility/FormValidation"
 
 const SetData = ({type,label}: CommonType) => {
     const buttonName = (type === "target") ? "Set" : "Transfer"
@@ -20,20 +21,12 @@ const SetData = ({type,label}: CommonType) => {
     },[type])
 
     const handleOnSetValue = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
-        const incomingAmount = e.target.value
-        const getCurrentBalance = localStorage.getItem("balance")
-        const getSavingsBalance = localStorage.getItem("savings")
-
-        if((type === 'savings' && Number(incomingAmount) > Number(getCurrentBalance))
-            ||
-            (type === 'transfer' && Number(incomingAmount) > Number(getSavingsBalance))
-        ) {
-            setErrorMsg('You dont have sufficient money to transfer')
-            setErrorFlag(true)
-        } else {
-          setErrorMsg('')
-          setErrorFlag(false)
-        }
+        FormValidation(e.target.value, type).then(result => {
+            if(result.error) {
+                setErrorMsg(result.message)
+                setErrorFlag(result.error)
+            }
+        })
         setValue(e.target.value)
     }
 

@@ -1,14 +1,12 @@
-import uuid4 from "uuid4"
-
-const IncomeSourceLists = (): Object[] => {
-    const sourceLists: Object[] = [[
-        { title: 'Salary'},
-        {title: 'House Rent'},
-        {title: 'Shop Rent'},
-        {title: 'Business'},
-        {title: 'Others'}
-    ]]
-    return sourceLists
+const SourceLists = (type: string) => {
+    let result: string[] = []
+    if(type === 'Income') {
+        result = ['Salary', 'House Rent', 'Shop Rent', 'Business', 'Side Business', 'Other']
+    }
+    if(type === 'Expense') {
+        result = ['Rent', 'Fuel', 'Holiday', 'Transportation', 'Shopping', 'Party', 'Loan', 'Personal', 'Health Care', 'Child Care', 'Family', 'Grocery', 'Food', 'Other']
+    }
+    return result
 }
 
-export default IncomeSourceLists
+export default SourceLists

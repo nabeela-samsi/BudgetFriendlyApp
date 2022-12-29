@@ -1,9 +1,9 @@
-@use './layouts/header.scss';
-@use './layouts/dashboard.scss';
-@use  './layouts/form.scss';
-@use './layouts/footer.scss';
+@use './layouts/_header.scss';
+@use './layouts/_dashboard.scss';
+@use  './layouts/_form.scss';
+@use './layouts/_footer.scss';
 
-@use "./abstracts/color.scss";
+@use "./abstracts/_color.scss";
 
 html{
     background-color: color.$bg-color;
